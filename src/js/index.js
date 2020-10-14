@@ -64,15 +64,19 @@ elements.searchResPages.addEventListener('click', event => {
 const controlRecipe = async () => {
     // Get ID from the URL
     const id = window.location.hash.replace('#', '');
-    console.log(id);
+    //console.log(id);
 
     if (id) {
         // Prepare UI for changes
+        recipeView.clearRecipe();
+        renderLoader(elements.recipe);
 
         // Create new recipe object
         state.recipe = new Recipe(id);
 
         try {
+            
+
             // Get recipe data and parse ingredients
             await state.recipe.getRecipe();
             state.recipe.parseIngredients();
@@ -82,7 +86,10 @@ const controlRecipe = async () => {
             state.recipe.calcServings();
     
             // Render the recipe
-            console.log(state.recipe);
+            clearLoader();
+            //console.log(state.recipe);
+            recipeView.renderRecipe(state.recipe);
+
         } catch(err) {
             alert('Error processing Recipe!');
             console.log(err);
